@@ -35,7 +35,7 @@ function rebalance()
                 print("Transferring " ..
                 level - half ..
                 "L of fluid from tank on side " ..
-                side .. " to tank on side " .. sinkSide .. " of transposer " .. proxy.address)
+                sides[side] .. " to tank on side " .. sides[sinkSide] .. " of transposer " .. proxy.address)
                 proxy.transferFluid(side, sinkSide, level - half)
             end
         end
