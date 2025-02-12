@@ -10,7 +10,9 @@ function DiscoverHatches()
         end
     end
 
-    return nil
+    return proxies
 end
 
-DiscoverHatches()
+for k, v in pairs(DiscoverHatches()) do
+    print(k, v)
+end
