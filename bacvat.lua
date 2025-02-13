@@ -33,9 +33,9 @@ function rebalance()
             end
             if sinkSide ~= nil then
                 print("Transferring " ..
-                level - half ..
-                "L of fluid from tank on side " ..
-                sides[side] .. " to tank on side " .. sides[sinkSide] .. " of transposer " .. proxy.address)
+                    level - half ..
+                    "L of fluid from tank on side " ..
+                    sides[side] .. " to tank on side " .. sides[sinkSide] .. " of transposer " .. proxy.address)
                 proxy.transferFluid(side, sinkSide, level - half)
             end
         end
@@ -44,10 +44,14 @@ end
 
 rebalance()
 while true do
-    local id, _, _, _ = event.pullMultiple("redstone_changed", "interrupted")
-    if id == "interrupted" then
-        print("Interrupt received, exiting...")
-        break
+    if component.redstone.getInput()[4] == 15 then
+        rebalance()
+    else
+        local id, _, _, _ = event.pullMultiple("redstone_changed", "interrupted")
+        if id == "interrupted" then
+            print("Interrupt received, exiting...")
+            break
+        end
+        rebalance()
     end
-    rebalance()
 end
