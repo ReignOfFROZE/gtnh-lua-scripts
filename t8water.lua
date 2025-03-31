@@ -13,12 +13,20 @@ function Check()
 end
 
 function CheckSuccess()
-    return string.find(component.gt_machine.getSensorInformation()[4], "Yes") ~= nil
+    local line = nil
+    local lineNo = 1
+    local sensor = component.gt_machine.getSensorInformation()
+    while sensor[lineNo] ~= nil do
+        if string.find(sensor[lineNo], "Quark Combination correctly identified") ~= nil then
+            line = sensor[lineNo]
+            break
+        end
+        lineNo = lineNo + 1
+    end
+    return line ~= nil and string.find(line, "Yes") ~= nil
 end
 
 local sequence = {1,2,3,4,5,6,1,3,5,2,6,4,1,5,2,4,3,6}
-
-local seq = 1
 
 while true do
     local id, _, _, _ = event.pullMultiple("redstone_changed", "interrupted")
@@ -31,6 +39,7 @@ while true do
         print("All quarks not found, waiting...")
         os.sleep(5)
     end
+    local seq = 1
     while CheckSuccess() ~= true and seq <= 18 do
         print("Transferring 1 "..component.transposer.getStackInSlot(4, sequence[seq]).label.." into the machine")
         component.transposer.transferItem(4,1,1,sequence[seq])
