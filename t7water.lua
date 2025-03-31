@@ -1,7 +1,7 @@
 local component = require('component')
 local event = require('event')
 
-function check(tank, slot, amt, name, contains)
+function Check(tank, slot, amt, name, contains)
     if tank[slot].amount < amt then
         component.redstone.setOutput(1,0)
         error("Fluid in tank slot "..slot.." was less than "..amt.."L.")
@@ -25,13 +25,13 @@ local interface1 = component.transposer.getFluidInTank(2)
 local interface2 = component.transposer.getFluidInTank(5)
 
 function setupChecks() 
-    check(interface2, 1, 10000, "helium")
-    check(interface2, 2, 7500, "neon")
-    check(interface2, 3, 5000, "krypton")
-    check(interface2, 4, 2500, "xenon")
-    check(interface2, 5, 1440, "superconductor", true)
-    check(interface2, 6, 10000, "supercoolant")
-    check(interface1, 1, 4608, "molten.neutronium")
+    Check(interface2, 1, 10000, "helium")
+    Check(interface2, 2, 7500, "neon")
+    Check(interface2, 3, 5000, "krypton")
+    Check(interface2, 4, 2500, "xenon")
+    Check(interface2, 5, 1440, "superconductor", true)
+    Check(interface2, 6, 10000, "supercoolant")
+    Check(interface1, 1, 4608, "molten.neutronium")
 end
 
 setupChecks()
