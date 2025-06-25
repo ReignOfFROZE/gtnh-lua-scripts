@@ -33,6 +33,9 @@ function Seed()
         os.sleep(1)
     end
     component.transposer.transferItem(0,1,1,SEED_SLOT)
+    while component.transposer.getStackInSlot(1,1) ~= nil do
+        os.sleep(1)
+    end
 end
 
 function Collapse()
@@ -43,6 +46,9 @@ function Collapse()
     end
     primaryRedstone.setOutput(CONTROLLER_SIDE, 0)
     component.transposer.transferItem(0,1,1,COLLAPSER_SLOT)
+    while component.transposer.getStackInSlot(1,1) ~= nil do
+        os.sleep(1)
+    end
     count = 0
 end
 
@@ -77,14 +83,12 @@ while true do
             print(count.."s have passed")
             if count >= 81 then
                 local storedSpacetime = AE2.getItemsInNetwork(spacetimeQuery)
-                if #storedSpacetime >= 1 then
-                    if storedSpacetime[1].size >= 2^math.floor((count - 81) / 30) then
+                if #storedSpacetime >= 1 and storedSpacetime[1].size >= 2^math.floor((count - 81) / 30) then
                         mainRedstone.setOutput(SPACETIME_SIDE, 15)
-                    else
-                        print("Not enough spacetime, collapsing")
-                        Collapse()
-                        break
-                    end
+                else
+                    print("Not enough spacetime, collapsing")
+                    Collapse()
+                    break
                 end
             end
             if count % TIMEOUT == 0 then
